@@ -1,0 +1,19 @@
+package com.citibank.services;
+
+import org.springframework.stereotype.Service;
+
+import com.citibank.repository.AccountRepo;
+
+@Service
+public class AccountService {
+	
+	private AccountRepo accountRepo;
+	private CustomerService customerService;
+	
+	@Autowired
+	public AccountService(AccountRepo accountRepo,CustomerService customerService) {
+		
+		this.accountRepo = accountRepo;
+		this.customerService = customerService;
+	}
+}

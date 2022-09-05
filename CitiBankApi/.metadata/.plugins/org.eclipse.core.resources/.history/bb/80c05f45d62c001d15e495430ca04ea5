@@ -1,0 +1,10 @@
+package com.citibank.entity;
+
+public class Account {
+	
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
+	private String accountNo= UUID.randomUUID().toString();
+	private BigDecimal balance;
+
+}

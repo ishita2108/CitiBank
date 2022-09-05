@@ -1,0 +1,34 @@
+package com.citibank.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.citibank.entity.Customer;
+import com.citibank.repository.CustomerRepo;
+
+@Service
+public class CustomerService {
+	
+	private CustomerRepo customerRepo;
+	
+	@Autowired
+	public CustomerService(CustomerRepo customerRepo) {
+		this.customerRepo = customerRepo;
+	}
+	
+	public Customer addCustomer(Customer customer) {
+		return customerRepo.save(customer);	
+	}
+	
+	public List<Customer> getAllCustomers(){
+		return customerRepo.findAll();
+	}
+	
+	public Customer getCustomer(int id) {
+		return customerRepo.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer with id "+ id + " is not found!!"));
+	}
+	
+
+}

@@ -1,0 +1,47 @@
+package com.citibank.entity;
+
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@AllArgsConstructor
+@ToString
+@NoArgsConstructor
+@Entity
+@Data	
+@Table(name="CustomersCitiBank")
+public class Customer {
+	
+	@Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
+	private String name;
+	private String permanentAddress;
+	private String currentAddress;
+	private String contactDetails;
+	@Column(unique = true)
+	private String email;
+	private String occupation;
+	@JsonFormat(pattern = "yyyy/MM/dd")
+	private Date dob;
+	@Column(unique = true)
+	private String panNo;
+	@Column(unique = true)
+	private String aadharNo;
+	@Column(unique = true)
+	private String passportNo;
+	@Column(unique = true)
+	private String kycNo;
+
+}
