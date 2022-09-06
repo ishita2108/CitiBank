@@ -54,6 +54,7 @@ public class AccountService {
 		String res = "";
 		for (Account acc:accList)
 		{
+			res +=  acc.getBalance().toString()+" , " ;
 			bal += acc.getBalance().doubleValue();
 			
 		}
