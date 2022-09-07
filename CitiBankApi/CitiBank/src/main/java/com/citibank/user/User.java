@@ -50,8 +50,8 @@ public class User {
 	
 	@Override
     public int hashCode() {
-        return Objects.hash(id, username, password, 
-                            loggedIn);
+        return Objects.hash(id, username, password,loggedIn
+                            );
     }
 
 }

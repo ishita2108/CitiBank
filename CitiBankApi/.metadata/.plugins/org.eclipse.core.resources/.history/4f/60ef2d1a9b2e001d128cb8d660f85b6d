@@ -1,0 +1,10 @@
+package com.citibank.dto;
+
+import javax.validation.constraints.NotNull;
+
+public class UserDto {
+	
+	private String username;
+	private String password;
+
+}

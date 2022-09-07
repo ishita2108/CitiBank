@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citibank.repository.UserRepository;
-import com.citibank.user.Status;
 import com.citibank.user.User;
 
 @RestController
@@ -36,38 +35,38 @@ public class UserController {
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 		}
-
 		userRepository.save(newUser);
 		return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/users/login")
-	public ResponseEntity<User> loginUser(@Valid @RequestBody User user) {
-		List<User> users = userRepository.findAll();
+	  @PostMapping("/users/login")
+	    public ResponseEntity<String> loginUser(@Valid @RequestBody User user) {
+	        List<User> users = userRepository.findAll();
 
-		for (User other : users) {
-			if (other.equals(user)) {
-				user.setLoggedIn(true);
-				userRepository.save(user);
-				return new ResponseEntity<>(user, HttpStatus.OK);
-			}
-		}
+	        for (User other : users) {
+	            if (other.getUsername().equals(user.getUsername()) && other.getPassword().equals(user.getPassword())) {
+	            	//user.setId(other.getId());
+	                other.setLoggedIn(true);
+	                userRepository.save(other);
+	                return new ResponseEntity<>(HttpStatus.OK);
+	            }
+	        }
 
-		return new ResponseEntity<>(user, HttpStatus.FORBIDDEN);
-	}
+	        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+	    }
 
 	@PostMapping("/users/logout")
-	public Status logUserOut(@Valid @RequestBody User user) {
+	public ResponseEntity<String> logUserOut(@Valid @RequestBody User user) {
 		List<User> users = userRepository.findAll();
 
 		for (User other : users) {
-			if (other.equals(user)) {
-				user.setLoggedIn(false);
-				userRepository.save(user);
-				return Status.SUCCESS;
+			if (other.getUsername().equals(user.getUsername()) && other.getPassword().equals(user.getPassword())) {
+				other.setLoggedIn(false);
+				userRepository.save(other);
+				return new ResponseEntity<>(HttpStatus.OK);
 			}
 		}
 
-		return Status.FAILURE;
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 }

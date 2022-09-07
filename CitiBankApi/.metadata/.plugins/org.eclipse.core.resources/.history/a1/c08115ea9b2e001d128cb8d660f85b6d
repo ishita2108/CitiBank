@@ -1,0 +1,28 @@
+package com.citibank.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.citibank.dto.UserDto;
+import com.citibank.repository.UserRepository;
+import com.citibank.user.User;
+
+@Service
+public class UserService {
+		
+	private UserRepository userRepository;
+	
+	@Autowired
+	public UserService(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
+	}
+
+
+
+	public User save(UserDto userDto) {
+		return null;
+		
+	}
+
+}
