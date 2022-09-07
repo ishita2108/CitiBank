@@ -31,9 +31,9 @@ public class UserController {
 		for (User user : users) {
 			System.out.println("Registered user: " + newUser.toString());
 
-			if (user.getUsername().equals(newUser.getUsername())) {
+			if (user.equals(newUser)) {
 				System.out.println("User Already exists!");
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+				return new ResponseEntity<>(newUser, HttpStatus.BAD_REQUEST);
 			}
 		}
 

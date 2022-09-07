@@ -2,7 +2,6 @@ package com.citibank.user;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +26,6 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	@NotNull
-	@Column(unique = true)
 	private String username;
 	@NotNull
 	private String password;
@@ -45,7 +43,8 @@ public class User {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Objects.equals(username, user.username);
+        return Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password);
     }
 	
 	@Override
