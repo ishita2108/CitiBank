@@ -1,0 +1,24 @@
+package com.citibank.user;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "users")
+public class User {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private int id;
+	@NotNull
+	private String username;
+	@NotNull
+	private String password;
+	@NotNull
+	private boolean loggedIn;
+
+}

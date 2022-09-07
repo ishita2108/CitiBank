@@ -1,0 +1,5 @@
+package com.citibank.user;
+
+public class User {
+
+}

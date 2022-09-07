@@ -20,11 +20,11 @@ public class CustomerDto {
 	private String name;
 	
 	@NotNull(message = "{customer.address.absent}")
-	@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.address.invalid}")
+	//@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.address.invalid}")
 	private String permanentAddress;
 	
 	@NotNull(message = "{customer.address.absent}")
-	@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.address.invalid}")
+	//@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.address.invalid}")
 	private String currentAddress;
 	
 	@NotNull(message = "{customer.phone.absent}")
@@ -36,7 +36,7 @@ public class CustomerDto {
 	private String email;
 	
 	@NotNull(message = "{customer.occupation.absent}")
-	@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.occupation.invalid}")
+	//@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{customer.occupation.invalid}")
 	private String occupation;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
