@@ -1,0 +1,9 @@
+package com.citibank.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.citibank.user.User;
+
+public interface UserAuthRepository extends JpaRepository<User, Integer>{
+
+}
