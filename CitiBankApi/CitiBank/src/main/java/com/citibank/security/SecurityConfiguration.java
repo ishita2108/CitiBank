@@ -1,21 +1,39 @@
 package com.citibank.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+
+import com.citibank.services.CustomUserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
+	@Autowired
+	private CustomUserService userService;
+	
+//	@Autowired
+//	private JWTTokenHelper jWTTokenHelper;
+
+//	@Autowired
+//	private AuthenticationEntryPoint authenticationEntryPoint;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		//In Memory
 		auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder().encode("admin")).authorities("USER","ADMIN");
+		
+		//Db Authentication
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -26,9 +44,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//http.authorizeRequests().anyRequest().permitAll();
-		http.authorizeRequests().anyRequest().authenticated();
-		
-		http.formLogin();
+//		http.authorizeRequests().anyRequest().authenticated();
+//		http.formLogin();
+//		http.httpBasic();
+		http.csrf().disable()
+		.authorizeRequests()
+		.antMatchers("/customers/**").permitAll()
+		.antMatchers("/accounts/**").permitAll()
+		//.antMatchers("/accounts/**").hasAnyAuthority("ADMIN")
+		.and().httpBasic()
+		.and()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
 

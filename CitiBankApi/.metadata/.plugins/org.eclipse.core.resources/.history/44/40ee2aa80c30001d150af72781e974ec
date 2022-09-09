@@ -1,0 +1,59 @@
+package com.citibank.controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.citibank.dto.AccountDto;
+import com.citibank.entity.Account;
+import com.citibank.services.AccountService;
+
+@RestController
+@RequestMapping("/accounts")
+@CrossOrigin(origins="http://localhost:3000")
+public class AccountController {
+	
+	private AccountService accountService;
+	
+	@Autowired
+	public AccountController(AccountService accountService) {
+		this.accountService = accountService;
+	}
+
+	@PostMapping(value="/customer/{cid}")
+	public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto, @PathVariable int cid){
+		Account account = accountService.addAccount(Account.from(accountDto), cid);
+		return new ResponseEntity<>(AccountDto.from(account), HttpStatus.CREATED);
+}
+	@GetMapping
+	public ResponseEntity<List<AccountDto>> getAllAccounts(){
+		List<Account> accounts = accountService.getAllAccounts();
+		List<AccountDto> accountsDto = accounts.stream().map(AccountDto::from).collect(Collectors.toList());
+		return new ResponseEntity<>(accountsDto, HttpStatus.OK);	
+	}
+	
+	@GetMapping(value ="customer/{cid}")
+	public ResponseEntity<List<AccountDto>> getAccountByCustomerId(@PathVariable Integer cid){
+		List<Account> accounts = accountService.getAccountByCustomerId(cid);
+		List<AccountDto> accountsDto = accounts.stream().map(AccountDto::from).collect(Collectors.toList());
+		return new ResponseEntity<>(accountsDto, HttpStatus.OK);	
+	}
+	
+	
+	@GetMapping(value ="customer/aggBalance/{cid}")
+	public Double aggBalance(@PathVariable  Integer cid) {
+		return accountService.aggBal(cid);	
+	}
+	
+	
+}

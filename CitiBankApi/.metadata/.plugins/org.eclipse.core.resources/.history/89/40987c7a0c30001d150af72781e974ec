@@ -1,0 +1,63 @@
+package com.citibank.services;
+
+import java.util.List;
+
+import javax.security.auth.login.AccountNotFoundException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.citibank.entity.Account;
+import com.citibank.entity.Customer;
+import com.citibank.repository.AccountRepo;
+
+@Service
+public class AccountService {
+	
+	private AccountRepo accountRepo;
+	private CustomerService customerService;
+	
+	@Autowired
+	public AccountService(AccountRepo accountRepo,CustomerService customerService) {
+		
+		this.accountRepo = accountRepo;
+		this.customerService = customerService;
+	}
+	
+	public Account addAccount(Account account, int cid) {
+		Customer customer = customerService.getCustomer(cid);
+		account.setCustomer(customer);
+		return accountRepo.save(account);	
+	}
+	
+	public List<Account> getAllAccounts(){
+		return accountRepo.findAll();
+	}
+	
+	public List<Account> getAccountByCustomerId(int cid){
+		return accountRepo.findByCustomerId(cid);
+	}
+	
+	public Account getAccount(String accountNo) throws AccountNotFoundException {
+		if(accountRepo.findByAccountNo(accountNo)!= null) {
+			return accountRepo.findByAccountNo(accountNo);
+		}
+		else {
+			throw new AccountNotFoundException("Account with the account number "+ accountNo + "does not exists!!!");
+		}
+	}
+	
+	public String aggBal(int cid) {
+		
+		List<Account> accList = accountRepo.findByCustomerId(cid);
+		double bal = 0;
+		String res = "";
+		for (Account acc:accList)
+		{
+			bal += acc.getBalance().doubleValue();
+			
+		}
+		res +=  bal;
+		return res;
+}
+}
